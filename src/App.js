@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { List, fromJS } from 'immutable';
 import rp from 'request-promise';
 
-import logo from './logo.svg';
-import './App.css';
-
 /**
   TODO:
-  - Style
   - Add fetching spinner and an error page/message when data is not received
 */
 class App extends Component {
@@ -99,7 +95,7 @@ class App extends Component {
     );
 
     return (
-      <div className="col-xs-12" style={{ fontSize: 'large' }}>
+      <div className="col-xs-12" style={{ fontSize: 'large', padding: '20px' }}>
         {aggregations}
         {userList}
         <button
