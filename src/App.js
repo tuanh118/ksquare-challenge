@@ -75,24 +75,12 @@ class App extends Component {
     );
   }
 
-  onSelectAll = () => {
-    this.setState(({ isSelected }) => ({
-      isSelected: isSelected.map(s => true)
-    }));
-  }
-
-  onUnselectAll = () => {
-    this.setState(({ isSelected }) => ({
-      isSelected: isSelected.map(s => false)
-    }));
-  }
-
   render() {
     const { users, isSelected } = this.state;
 
     const selectedCount = isSelected ? isSelected.filter(v => v).size : 0;
     const aggregations = selectedCount ? (
-      <p>{`${selectedCount} of ${isSelected.size} selected`}</p>
+      <div>{`${selectedCount} of ${isSelected.size} selected`}</div>
     ) : null;
 
     const userList = users && (
@@ -111,17 +99,19 @@ class App extends Component {
     );
 
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          {aggregations}
-          <button className="btn btn-success" onClick={this.onSelectAll}>Select All</button>
-          <button className="btn btn-danger" onClick={this.onUnselectAll}>Unselect All</button>
-        </div>
-        <div className="App-intro">
-          {userList}
-          <button className="btn btn-default" onClick={this.onConfirm}>Confirm</button>
-        </div>
+      <div className="col-xs-12" style={{ fontSize: 'large' }}>
+        {aggregations}
+        {userList}
+        <button
+          className="btn btn-default"
+          onClick={this.onConfirm}
+          style={{
+            backgroundColor: '#7CCBD3',
+            borderRadius: 0
+          }}
+        >
+          Confirm
+        </button>
       </div>
     );
   }
@@ -138,15 +128,52 @@ class UserItem extends Component {
     const { isSelected, name, email } = this.props;
 
     return (
-      <li className="list-group-item">
-        <input
-          type="checkbox"
-          checked={isSelected}
-          onChange={this.onChange}
-        />
-        <div>
-          <p>{name}</p>
-          <p>{email}</p>
+      <li
+        className="list-group-item row"
+        style={{
+          display: 'flex',
+          borderStyle: 'solid',
+          margin: '5px 0',
+          padding: 0
+        }}
+      >
+        <div
+          className="col-xs-2"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+            backgroundColor: '#D9D9D9'
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={isSelected}
+            onChange={this.onChange}
+          />
+        </div>
+        <div
+          className="col-xs-10"
+          style={{
+            padding: 0
+          }}
+        >
+          <div
+            style={{
+              padding: '5px',
+              backgroundColor: '#E9E9E9'
+            }}
+          >
+            {name}
+          </div>
+          <div
+            style={{
+              padding: '5px 5px 15px 5px'
+            }}
+          >
+            {email}
+          </div>
         </div>
       </li>
     );
