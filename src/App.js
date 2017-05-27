@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { List, fromJS } from 'immutable';
 import rp from 'request-promise';
 
-/**
-  TODO:
-  - Add fetching spinner and an error page/message when data is not received
-*/
 class App extends Component {
   state = {
 
@@ -35,6 +31,8 @@ class App extends Component {
   }
 
   componentWillMount() {
+
+    // Fetch data
     rp({
         uri: 'https://jsonplaceholder.typicode.com/users',
         json: true
@@ -74,11 +72,13 @@ class App extends Component {
   render() {
     const { users, isSelected } = this.state;
 
+    // The aggregation should only be displayed when more than 1 user are selected
     const selectedCount = isSelected ? isSelected.filter(v => v).size : 0;
-    const aggregations = selectedCount ? (
+    const aggregation = selectedCount ? (
       <div>{`${selectedCount} of ${isSelected.size} selected`}</div>
     ) : null;
 
+    // List of users with their names and email addresses
     const userList = users && (
       <ul className="list-group">
         {users.map((user, i) => (
@@ -94,20 +94,21 @@ class App extends Component {
       </ul>
     );
 
+    const confirmButton = (
+      <button
+        className="btn btn-default"
+        onClick={this.onConfirm}
+        style={{ backgroundColor: '#7CCBD3', borderRadius: 0 }}
+      >
+        Confirm
+      </button>
+    );
+
     return (
       <div className="col-xs-12" style={{ fontSize: 'large', padding: '20px' }}>
-        {aggregations}
+        {aggregation}
         {userList}
-        <button
-          className="btn btn-default"
-          onClick={this.onConfirm}
-          style={{
-            backgroundColor: '#7CCBD3',
-            borderRadius: 0
-          }}
-        >
-          Confirm
-        </button>
+        {confirmButton}
       </div>
     );
   }
@@ -139,7 +140,6 @@ class UserItem extends Component {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-
             backgroundColor: '#D9D9D9'
           }}
         >
@@ -149,25 +149,11 @@ class UserItem extends Component {
             onChange={this.onChange}
           />
         </div>
-        <div
-          className="col-xs-10"
-          style={{
-            padding: 0
-          }}
-        >
-          <div
-            style={{
-              padding: '5px',
-              backgroundColor: '#E9E9E9'
-            }}
-          >
+        <div className="col-xs-10" style={{ padding: 0 }} >
+          <div style={{ padding: '5px', backgroundColor: '#E9E9E9' }} >
             {name}
           </div>
-          <div
-            style={{
-              padding: '5px 5px 15px 5px'
-            }}
-          >
+          <div style={{ padding: '5px 5px 15px 5px' }} >
             {email}
           </div>
         </div>
